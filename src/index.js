@@ -1,4 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/js/bootstrap.bundle'; /* Important for bootstrap functions to work i.e. Dropdown menus */
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
