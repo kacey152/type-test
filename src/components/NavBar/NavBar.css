@@ -1,0 +1,7 @@
+#navColour{
+    background-color: #6610f2;
+    color: #ffffff;
+}
+.nav-link, .navbar-brand, .navbar-toggler-icon {
+    color: inherit; /* This will apply the color from .custom-navbar to the brand and links */
+}
