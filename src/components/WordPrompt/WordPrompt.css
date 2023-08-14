@@ -1,0 +1,14 @@
+.wordsDisplay{
+    /* hide extra words */
+    overflow: hidden; 
+    height: 1.5rem;
+}
+.textinput{
+    /* display: none; */
+}
+.correct{
+    color: green;
+}
+.wrong{
+    color: red;
+}
