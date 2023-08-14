@@ -1,3 +1,8 @@
 .mode{
     font-size: 2rem;
 }
+.remove-button-default {
+    background-color: transparent; /* This removes the white background */
+    border: none;                  /* This removes the border */
+    outline: none;                 /* This removes the focus outline (be careful with accessibility) */
+}

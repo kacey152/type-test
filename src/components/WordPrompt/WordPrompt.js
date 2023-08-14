@@ -1,7 +1,6 @@
-import React, { useState, useReducer, useEffect } from "react";
+import React, { useReducer,} from "react";
 import { generate } from "random-words";
 import "./WordPrompt.css";
-import Results from "../Results/Results";
 
 const initial = {
   wordArray: generate(40),
@@ -31,34 +30,16 @@ const reducer = (state, action) => {
         ...state,
         wordArray: [...state.wordArray, ...generate(10)],
       };
+    default:
+      return state;
   }
 };
 function WordPrompt(props) {
   const [state, dispatch] = useReducer(reducer, initial);
-  const [timer, setTimer] = useState(0);
-  const [timerActive, setTimerActive] = useState(false);
-  const [showResults, setShowResults] = useState(false);
-  const time = props.time;
-  useEffect(() => {
-    let interval;
-    if (timerActive) {
-      interval = setInterval(() => {
-        setTimer((prevTimer) => {
-          if (prevTimer === time) {
-            showResults(true);
-            setTimerActive(false);
-          }
-          return prevTimer + 1;
-        });
-      }, 1000);
-    } else if (!timerActive && timer !== 0) {
-      clearInterval(interval);
-    }
-    return () => clearInterval(interval); // Cleanup on unmount
-  }, [timerActive]);
+  const {timerActive, timer, setTimerActive, time} = props;
 
   const handleInput = (e) => {
-    if (!timerActive && timer === 0) {
+    if (!timerActive && timer === time) {
       // start timer on input
       setTimerActive(true);
     }
@@ -80,6 +61,7 @@ function WordPrompt(props) {
     }
   };
   const renderFirstWord = () => {
+    //renders the letters already typed
     const firstWord = state.wordArray[0];
     return Array.from(firstWord).map((letter, index) => {
       if (index < state.typedLetters.length) {
@@ -93,16 +75,13 @@ function WordPrompt(props) {
     });
   };
   const renderExtra = () => {
+    //renders any extra letters that exceed the original word length
     const firstWord = state.wordArray[0];
     const extraLetters = state.typedLetters.slice(firstWord.length);
     return <span className="wrong">{extraLetters}</span>;
   };
 
-  if (showResults) {
-    return (
-      <Results />
-    )
-  }
+
   return (
     <div className="container">
       <div className="row">
