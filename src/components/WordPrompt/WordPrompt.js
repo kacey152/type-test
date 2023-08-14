@@ -1,4 +1,4 @@
-import React, { useReducer,} from "react";
+import React, { useReducer, useRef } from "react";
 import { generate } from "random-words";
 import "./WordPrompt.css";
 
@@ -36,7 +36,9 @@ const reducer = (state, action) => {
 };
 function WordPrompt(props) {
   const [state, dispatch] = useReducer(reducer, initial);
-  const {timerActive, timer, setTimerActive, time} = props;
+  const { timerActive, timer, setTimerActive, time } = props;
+
+  const inputRef = useRef(null);
 
   const handleInput = (e) => {
     if (!timerActive && timer === time) {
@@ -81,21 +83,30 @@ function WordPrompt(props) {
     return <span className="wrong">{extraLetters}</span>;
   };
 
+  const handleTextClick = () => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
 
   return (
     <div className="container">
-      <div className="row">
-        <label htmlFor="textInput"></label>
-        <input
-          id="textInput"
-          className="textinput"
-          type="text"
-          onChange={handleInput}
-        ></input>
-        <p className="wordsDisplay">
+      <div
+        className="row border border-black p-5"
+        id="hiddenInput"
+        onClick={handleTextClick}
+      >
+        <label htmlFor="textInput" className="wordsDisplay">
           {renderFirstWord()}
           {renderExtra()} {state.wordArray.slice(1).join(" ")}
-        </p>
+        </label>
+        <input
+          id="textInput"
+          className="textInput"
+          type="text"
+          ref={inputRef}
+          onChange={handleInput}
+        ></input>
       </div>
     </div>
   );

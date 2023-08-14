@@ -3,8 +3,9 @@
     overflow: hidden; 
     height: 1.5rem;
 }
-.textinput{
-    /* display: none; */
+.textInput{
+    opacity: 0;
+    pointer-events: none;
 }
 .correct{
     color: green;
