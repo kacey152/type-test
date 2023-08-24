@@ -2,7 +2,6 @@ import "./App.css";
 import NavBar from "./components/NavBar/NavBar";
 import Mode from "./components/Mode/Mode";
 import WordPrompt from "./components/WordPrompt/WordPrompt";
-import Results from "./components/Results/Results";
 import React, { useState, useEffect, useRef } from "react";
 
 function App() {
@@ -34,7 +33,11 @@ function App() {
           return prevTimer - 1;
         });
       }, 1000);
-    } else if (!timerActive && !timerActive && timerRef.current !== timeRef.current) {
+    } else if (
+      !timerActive &&
+      !timerActive &&
+      timerRef.current !== timeRef.current
+    ) {
       clearInterval(interval);
     }
     return () => clearInterval(interval); // Cleanup on unmount
@@ -53,24 +56,21 @@ function App() {
     setTimerActive(false);
     setTimer(time);
     setResetKey(resetKey + 1); // resets the word prompt component
+    setShowResults(false)
   };
 
-
   return (
-    <div className="bg-success-subtle bg-gradient fullHeight">
+    <div className="background bg-gradient fullHeight">
       <NavBar />
       <Mode handleTime={changeTime} timer={timer} reset={reset} />
-      {showResults ? (
-        <Results />
-      ) : (
-        <WordPrompt
-          key={resetKey}
-          timerActive={timerActive}
-          timer={timer}
-          setTimerActive={setTimerActive}
-          time={time}
-        />
-      )}
+      <WordPrompt
+        key={resetKey}
+        timerActive={timerActive}
+        timer={timer}
+        setTimerActive={setTimerActive}
+        time={time}
+        showResults={showResults}
+      />
     </div>
   );
 }

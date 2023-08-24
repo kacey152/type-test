@@ -1,15 +1,20 @@
 .wordsDisplay{
     /* hide extra words */
     overflow: hidden; 
-    height: 1.5rem;
+    height: 1.9em;
 }
 .textInput{
     opacity: 0;
     pointer-events: none;
 }
 .correct{
-    color: green;
+    color: rgb(41, 199, 41);
 }
 .wrong{
     color: red;
+}
+
+.main-text{
+    font-size: 2rem;
+    color: grey
 }

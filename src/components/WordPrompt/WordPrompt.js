@@ -1,12 +1,9 @@
 import React, { useReducer, useRef } from "react";
 import { generate } from "random-words";
 import "./WordPrompt.css";
+import Results from "../Results/Results";
 
-const initial = {
-  wordArray: generate(40),
-  typedWords: [],
-  typedLetters: "",
-};
+
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -35,10 +32,17 @@ const reducer = (state, action) => {
   }
 };
 function WordPrompt(props) {
+  const initial = {
+    wordArray: generate(40),
+    typedWords: [],
+    typedLetters: "",
+  };
+
   const [state, dispatch] = useReducer(reducer, initial);
-  const { timerActive, timer, setTimerActive, time } = props;
+  const { timerActive, timer, setTimerActive, time, showResults } = props;
 
   const inputRef = useRef(null);
+
 
   const handleInput = (e) => {
     if (!timerActive && timer === time) {
@@ -89,8 +93,8 @@ function WordPrompt(props) {
     }
   };
 
-  return (
-    <div className="container">
+  return !showResults ? (
+    <div className="container main-text">
       <div
         className="row border border-black p-5"
         id="hiddenInput"
@@ -109,6 +113,8 @@ function WordPrompt(props) {
         ></input>
       </div>
     </div>
+  ) : (
+    <Results typedWords={state.typedWords} time={time} />
   );
 }
 
