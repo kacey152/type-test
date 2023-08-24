@@ -1,0 +1,29 @@
+.track{
+    height: 35%;
+}
+
+.character {
+    background-image: url('../../assets/man.png');
+    width: 9vw; /* Set width as a percentage of viewport width */
+    height: calc(9vw * 1.85); /* Adjust height based on aspect ratio */
+    background-size: 600%;
+    /* background-position: -45vw 0; */
+    animation: run 2s steps(2) infinite;
+}
+
+/* @keyframes run {
+    0% { background-position: -45vw 0; }
+    16.6667% { background-position: -36 0; }
+    33.3334% { background-position: -27 0; }
+    50% { background-position: -18 0; }
+    66.6667% { background-position: -9 0; }
+    83.3334% { background-position: 0 0; }
+    100% { background-position: 0 0; }
+} */
+@keyframes run {
+    0% { background-position: 0 0; }
+    33.3334% { background-position: -100% 0; }
+    66.6667% { background-position: -200% 0; }
+    100% { background-position: -200% 0; }
+}
+

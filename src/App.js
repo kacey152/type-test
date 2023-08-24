@@ -3,6 +3,7 @@ import NavBar from "./components/NavBar/NavBar";
 import Mode from "./components/Mode/Mode";
 import WordPrompt from "./components/WordPrompt/WordPrompt";
 import React, { useState, useEffect, useRef } from "react";
+import { ProgressBar } from "./components/ProgressBar/ProgressBar";
 
 function App() {
   const [time, setTime] = useState(30); //total time countdown when reset
@@ -71,6 +72,7 @@ function App() {
         time={time}
         showResults={showResults}
       />
+      <ProgressBar />
     </div>
   );
 }
