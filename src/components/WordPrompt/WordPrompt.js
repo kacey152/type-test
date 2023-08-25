@@ -1,9 +1,7 @@
-import React, { useReducer, useRef } from "react";
+import React, { useReducer, useRef, useEffect } from "react";
 import { generate } from "random-words";
 import "./WordPrompt.css";
 import Results from "../Results/Results";
-
-
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -39,13 +37,24 @@ function WordPrompt(props) {
   };
 
   const [state, dispatch] = useReducer(reducer, initial);
-  const { timerActive, timer, setTimerActive, time, showResults } = props;
+  const {
+    timerActive,
+    setTimerActive,
+    time,
+    showResults,
+    setCorrectWords,
+    mode,
+    stopWatch
+  } = props;
+
+  useEffect(() => {
+    setCorrectWords(state.typedWords.length);
+  }, [state.typedWords, setCorrectWords]); //setCorrectWords is placed here solely to silence the dependency warning
 
   const inputRef = useRef(null);
 
-
   const handleInput = (e) => {
-    if (!timerActive && timer === time) {
+    if (!timerActive) {
       // start timer on input
       setTimerActive(true);
     }
@@ -114,7 +123,7 @@ function WordPrompt(props) {
       </div>
     </div>
   ) : (
-    <Results typedWords={state.typedWords} time={time} />
+    <Results typedWords={state.typedWords} time={time} mode={mode} stopWatch={stopWatch} />
   );
 }
 
