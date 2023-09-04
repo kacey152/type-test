@@ -21,6 +21,7 @@ function App() {
   const stopWatchRef = useRef(stopWatch);
   const correctWordsRef = useRef(correctWords);
   const targetRef = useRef(target);
+  const modeRef = useRef(mode);
 
   // Update refs whenever timer or time change
   useEffect(() => {
@@ -29,55 +30,51 @@ function App() {
     stopWatchRef.current = stopWatch;
     correctWordsRef.current = correctWords;
     targetRef.current = target;
-  }, [timer, time, stopWatch, correctWords, target]);
+    modeRef.current = mode;
+  }, [timer, time, stopWatch, correctWords, target, mode]);
 
   //Function that triggers the clock when first input detected
 
   useEffect(() => {
     let interval;
     let startTime;
-    if (mode === "time") {
+    if (timerActive && modeRef.current === "time") {
       //Timer Logic
-      if (timerActive) {
         startTime = Date.now();
         interval = setInterval(() => {
-          setTimer((prevTimer) => {
-            if (prevTimer === 1) {
-              setShowResults(true);
-              setTimerActive(false);
-            }
-            return prevTimer - 1;
-          });
-        }, 1000);
-      } else if (!timerActive && timerRef.current !== timeRef.current) {
-        clearInterval(interval);
-      }
-    } else if (mode === "words") {
-      //Measure time for fixed number of words
-      if (timerActive) {
-        interval = setInterval(() => {
-          console.log(correctWordsRef.current);
-          if (targetRef.current - correctWordsRef.current === 0) {
+          const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+          const newTimerValue = timeRef.current - elapsedTime;
+          if (newTimerValue <= 0) {
+            setTimer(0);
             setShowResults(true);
             setTimerActive(false);
+            clearInterval(interval);
           } else {
-            setStopWatch((prevTime) => {
-              return prevTime + 1;
-            });
+            setTimer(newTimerValue);
           }
-        }, 1000);
-      } else if (!timerActive && stopWatchRef.current !== 0) {
-        clearInterval(interval);
-      }
+        }, 100);
+
+    } else if (timerActive && modeRef.current === "words") {
+      //Measure time for fixed number of words
+        startTime = Date.now();
+        interval = setInterval(() => {
+          if (targetRef.current - correctWordsRef.current === 0) {
+            const elapsedTime = (Date.now() - startTime) / 1000;
+            setStopWatch(elapsedTime);
+            setShowResults(true);
+            setTimerActive(false);
+          }         
+        }, 100);
+
     }
     return () => clearInterval(interval); // Cleanup on unmount
   }, [timerActive]);
 
   const changeMode = (newMode) => {
-    reset()
+    reset();
     setMode(newMode);
-  }
-  
+  };
+
   //set the timer to a new value
   const changeCount = (newCount) => {
     reset();
