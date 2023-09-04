@@ -30,15 +30,16 @@ function App() {
     correctWordsRef.current = correctWords;
     targetRef.current = target;
   }, [timer, time, stopWatch, correctWords, target]);
-  
 
   //Function that triggers the clock when first input detected
 
   useEffect(() => {
     let interval;
+    let startTime;
     if (mode === "time") {
       //Timer Logic
       if (timerActive) {
+        startTime = Date.now();
         interval = setInterval(() => {
           setTimer((prevTimer) => {
             if (prevTimer === 1) {
@@ -55,7 +56,7 @@ function App() {
       //Measure time for fixed number of words
       if (timerActive) {
         interval = setInterval(() => {
-          console.log(correctWordsRef.current)
+          console.log(correctWordsRef.current);
           if (targetRef.current - correctWordsRef.current === 0) {
             setShowResults(true);
             setTimerActive(false);
@@ -72,14 +73,17 @@ function App() {
     return () => clearInterval(interval); // Cleanup on unmount
   }, [timerActive]);
 
+  const changeMode = (newMode) => {
+    reset()
+    setMode(newMode);
+  }
+  
   //set the timer to a new value
   const changeCount = (newCount) => {
-    setTimerActive(false);
-    setStopWatch(0);
+    reset();
     setTarget(newCount);
     setTime(newCount);
     setTimer(newCount);
-    setResetKey((prevKey) => !prevKey); // resets the word prompt component
   };
 
   //resets game
@@ -98,7 +102,7 @@ function App() {
         handleCount={changeCount}
         timer={timer}
         reset={reset}
-        setMode={setMode}
+        changeMode={changeMode}
         mode={mode}
         target={target}
         correctWords={correctWords}
@@ -113,7 +117,11 @@ function App() {
         stopWatch={stopWatch}
         mode={mode}
       />
-      <ProgressBar />
+      {mode === "time" ? (
+        <ProgressBar current={time - timer} total={time} />
+      ) : mode === "words" ? (
+        <ProgressBar current={correctWords} total={target} />
+      ) : null}
     </div>
   );
 }

@@ -1,5 +1,8 @@
 .track{
     height: 35%;
+    position: relative;
+    background-image: url('../../assets/track.jpg');
+    background-size: cover;
 }
 
 .character {
@@ -7,8 +10,11 @@
     width: 9vw; /* Set width as a percentage of viewport width */
     height: calc(9vw * 1.85); /* Adjust height based on aspect ratio */
     background-size: 600%;
-    /* background-position: -99% 0; */
     animation: run 5s steps(5) infinite;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: left 1s;
 }
 
 @keyframes run {

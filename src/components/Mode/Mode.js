@@ -1,7 +1,7 @@
 import React from "react";
 import "./Mode.css";
 function Mode(props) {
-  const { handleCount, reset, setMode, mode, correctWords, timer, target } = props;
+  const { handleCount, reset, changeMode, mode, correctWords, timer, target } = props;
   return (
     <div className="container text-center mode py-4">
       <div className="row align-items-center">
@@ -21,13 +21,13 @@ function Mode(props) {
           </button>
           <ul className="dropdown-menu">
             <li>
-              <button onClick={() => setMode("time")} className="dropdown-item">
+              <button onClick={() => changeMode("time")} className="dropdown-item">
                 Time
               </button>
             </li>
             <li>
               <button
-                onClick={() => setMode("words")}
+                onClick={() => changeMode("words")}
                 className="dropdown-item"
               >
                 Words
