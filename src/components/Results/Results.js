@@ -23,7 +23,7 @@ function Results(props) {
             <p className="card-text">{typingSpeed.toFixed(2)} words per minute</p>
           </div>
           <div className="card-body">
-            <h5 className="card-title">Typing Speed</h5>
+            <h5 className="card-title">Time Taken</h5>
             <p className="card-text">{mode === "time" ? time : stopWatch} s</p>
           </div>
         </div>
