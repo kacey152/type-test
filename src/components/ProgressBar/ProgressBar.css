@@ -1,5 +1,5 @@
 .track{
-    height: 35%;
+    height: 35vh;
     position: relative;
     background-image: url('../../assets/track.jpg');
     background-size: cover;
