@@ -99,7 +99,7 @@ function App() {
 
       <BrowserRouter>
         <div>
-          <NavBar />
+          <NavBar reset={reset}/>
           <Routes>
             <Route path="/leaderboards" element={<Leaderboards />} />
             <Route path="/" element={<div>
@@ -122,11 +122,12 @@ function App() {
                 stopWatch={stopWatch}
                 mode={mode}
               />
-              {mode === "time" ? (
+              {!showResults ? (mode === "time" ? (
                 <ProgressBar current={time - timer} total={time} />
               ) : mode === "words" ? (
                 <ProgressBar current={correctWords} total={target} />
-              ) : null}
+              ) : null)
+                : null}
             </div>}
             />
           </Routes>
