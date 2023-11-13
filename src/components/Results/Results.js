@@ -4,6 +4,7 @@ import { updateLeaderboards } from "../../api/api";
 function Results(props) {
   const { typedWords, time, mode, stopWatch } = props;
   const [name, setName] = useState("")
+  const [isSubmitted, setIsSubmitted] = useState(false)
   let typingSpeed;
   if (mode === "time") {
     typingSpeed = (typedWords.length / time * 60).toFixed(2);
@@ -12,17 +13,21 @@ function Results(props) {
   } else {
     typingSpeed = "Error Mode not found";
   }
-  
-  const handleSubmit = async (e) =>{
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    
+
     try {
       const response = await updateLeaderboards({
         name: name,
         wpm: typingSpeed,
         mode: mode
       })
-      alert("Entry added")
+      if (response.status === 200) {
+        setIsSubmitted(true)
+      } else {
+        alert("Sorry! Leaderboard update unsuccessful")
+      }
     } catch (err) {
       console.log(err)
     }
@@ -43,15 +48,20 @@ function Results(props) {
           <p className="card-text">{mode === "time" ? time : stopWatch} s</p>
         </div>
       </div>
-      <form onSubmit={handleSubmit}>
-        <div class="mb-3">
-          <label for="name" class="form-label">Name</label>
-          <div className="col-sm-4">
-            <input type="text" class="form-control" id="name" onChange={(e)=> setName(e.target.value)}/>
+
+      {isSubmitted ? (<div class="alert alert-success" role="alert">
+        Your record has been successfully added to the leaderboard!
+      </div>) :
+        <form onSubmit={handleSubmit}>
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <div className="col-sm-4">
+              <input type="text" class="form-control" id="name" onChange={(e) => setName(e.target.value)} />
+            </div>
           </div>
-        </div>
-        <button type="submit" class="btn btn-secondary">Add to leaderboard</button>
-      </form>
+          <button type="submit" class="btn btn-secondary">Add to leaderboard</button>
+        </form>
+      }
     </div>
   );
 }
