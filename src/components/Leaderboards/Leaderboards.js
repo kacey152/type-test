@@ -7,11 +7,14 @@ import { getLeaderboards } from '../../api/api'
 const Leaderboards = () => {
     const [leaderboardEntries, setLeaderboardEntries] = useState([])
     useEffect(() => {
-        getLeaderboards()
-            .then((response) => {
-                setLeaderboardEntries(response.data)
-            })
-            .catch((err) => console.log(err))
+        (async () => {
+            try {
+                const response = await getLeaderboards();
+                setLeaderboardEntries(response.data);
+            } catch (err) {
+                console.error(err);
+            }
+        })();
     }, [])
 
     return (
@@ -31,7 +34,7 @@ const Leaderboards = () => {
                             <tr>
                                 <td>{entry.name}</td>
                                 <td>{entry.wpm}</td>
-                                <td>{entry.mode}</td>
+                                <td>{entry.mode === "time" ? "Timed" : entry.mode === "words" ? "Words" : ""}</td>
                             </tr>
                         )
                     })}
