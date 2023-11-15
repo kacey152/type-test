@@ -33,16 +33,28 @@ app.get('/api/leaderboards', async (req, res) => {
     }
 })
 
-app.post('/api/leaderboards', async(req, res) => {
-    const {name, wpm, mode} = req.body
+app.post('/api/leaderboards', async (req, res) => {
+    const { name, wpm, mode } = req.body
     try {
-        newLeaderboardEntry = new Leaderboards({
-            name: name,
-            wpm: wpm,
-            mode: mode    
-        })
-        newLeaderboardEntry.save()
-        res.send("Entry added")
+        const existingData = await Leaderboards.findOne({ name: name, mode: mode })
+        if (existingData) {
+            if (existingData.wpm < wpm) { //User exists and breaks the previous record
+                await Leaderboards.findOneAndUpdate({ name: name, mode: mode },
+                    { $set: { wpm: wpm } },
+                    { new: true, upsert: true })
+                res.send("Entry updated")
+            } else { // User exists but does not break the records
+                res.send("Entry not added, record not broken")
+            }
+        } else { //New user
+            const newData = new Leaderboards({
+                name: name,
+                wpm: wpm,
+                mode: mode
+            })
+            await newData.save()
+            res.send("New entry added")
+        }
     } catch (error) {
         res.status(500).send(error.message)
     }

@@ -1,10 +1,10 @@
 const mongoose = require('mongoose')
 
 const leaderboardsSchema = new mongoose.Schema({
-    name: String,
+    name: { type: String, unique: true },
     wpm: Number,
     mode: String,
-},{
+}, {
     timestamps: true,
 });
 

@@ -20,7 +20,7 @@ const Leaderboards = () => {
     return (
         <div className='container'>
             <h2 className='row justify-content-center pt-5'>Leaderboards</h2>
-            <table class="table table-striped table-bordered text-center">
+            <table className="table table-striped table-bordered text-center">
                 <thead>
                     <tr>
                         <th scope="col" className='leaderboardCol'>Name</th>
