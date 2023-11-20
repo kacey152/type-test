@@ -5,7 +5,6 @@ const dotenv = require('dotenv');
 const Leaderboards = require('./leaderboards')
 
 dotenv.config();
-
 const app = express();
 
 // MongoDB Connections
